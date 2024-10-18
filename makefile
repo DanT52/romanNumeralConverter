@@ -1,13 +1,12 @@
-calc: calc.tab.c lex.yy.c
-	bison -d calc.y
-	flex calc.l
-	gcc calc.tab.c lex.yy.c -o calc -lm
+# makefile
+# -lfl flag links the Flex library
 
-calc.tab.c: calc.y
-	bison -d calc.y
+all: roman
 
-lex.yy.c: calc.l
-	flex calc.l
+roman:
+	flex lexer.l
+	bison -d parser.y
+	gcc -o roman lex.yy.c parser.tab.c -lfl
 
 clean:
-	rm -f calc calc.tab.c calc.tab.h lex.yy.c
+	rm -f roman parser.tab.* lex.yy.c

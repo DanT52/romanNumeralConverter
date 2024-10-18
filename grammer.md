@@ -1,15 +1,17 @@
--- romanNum -> thousand hundred ten digit
+-- calculation -> roman
+
+-- roman -> thousand hundred ten digit
 
 -- thousand -> M | MM | MMM | ε
 
--- hundred -> smallHundred | C D | D smallHundred | C M
+-- hundred -> iHundred | C D | D iHundred | C M
 
--- smallHundred -> C | CC | CCC | ε
+-- iHundred -> C | CC | CCC | ε
 
--- ten -> smallTen | X L | L smallTen | X C
+-- ten -> iTen | X L | L iTen | X C
 
--- smallTen -> X | XX | XXX | ε
+-- iTen -> X | XX | XXX | ε
 
--- digit -> smallDigit | I V | V smallDigit | I X
+-- digit -> iDigit | I V | V iDigit | I X
 
--- smallDigit -> I | II | III | ε
+-- iDigit -> I | II | III | ε
