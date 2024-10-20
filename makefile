@@ -6,7 +6,7 @@ all: roman
 roman:
 	flex lexer.l
 	bison -d parser.y
-	gcc -o roman lex.yy.c parser.tab.c -lfl
+	gcc -o roman lex.yy.c parser.tab.c expr.c -lfl
 
 clean:
 	rm -f roman parser.tab.* lex.yy.c

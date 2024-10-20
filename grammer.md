@@ -1,17 +1,28 @@
--- calculation -> roman
+## Grammar Rules
 
--- roman -> thousand hundred ten digit
+### Calculation
+- `calculation` → `roman`
 
--- thousand -> M | MM | MMM | ε
+### Roman Numerals
+- `roman` → `thousand` `hundred` `ten` `digit`
 
--- hundred -> iHundred | C D | D iHundred | C M
+### Thousands
+- `thousand` → `M` | `MM` | `MMM` | `ε`
 
--- iHundred -> C | CC | CCC | ε
+### Hundreds
+- `hundred` → `iHundred` | `C` `D` | `D` `iHundred` | `C` `M`
 
--- ten -> iTen | X L | L iTen | X C
+### Intermediate Hundreds
+- `iHundred` → `C` | `CC` | `CCC` | `ε`
 
--- iTen -> X | XX | XXX | ε
+### Tens
+- `ten` → `iTen` | `X` `L` | `L` `iTen` | `X` `C`
 
--- digit -> iDigit | I V | V iDigit | I X
+### Intermediate Tens
+- `iTen` → `X` | `XX` | `XXX` | `ε`
 
--- iDigit -> I | II | III | ε
+### Digits
+- `digit` → `iDigit` | `I` `V` | `V` `iDigit` | `I` `X`
+
+### Intermediate Digits
+- `iDigit` → `I` | `II` | `III` | `ε`

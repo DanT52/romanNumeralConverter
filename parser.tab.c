@@ -71,17 +71,20 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "ast.h"
+#include "expr.h"
 
 int yylex();
 void yyerror(const char *s);
+
 typedef struct yy_buffer_state *YY_BUFFER_STATE;
 extern YY_BUFFER_STATE yy_scan_string(const char *str);
 extern void yy_delete_buffer(YY_BUFFER_STATE buffer);
 
-ast_node *ast_root; // The root of the AST
+#define YYSTYPE struct ast *
+struct ast * parser_result = 0;
 
-#line 85 "parser.tab.c"
+
+#line 88 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -515,10 +518,10 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    27,    27,    31,    38,    39,    40,    43,    47,    48,
-      49,    50,    54,    55,    56,    59,    63,    64,    65,    66,
-      70,    71,    72,    75,    79,    80,    81,    82,    86,    87,
-      88,    91
+       0,    23,    23,    27,    34,    35,    36,    37,    41,    42,
+      43,    44,    48,    49,    50,    51,    55,    56,    57,    58,
+      62,    63,    64,    65,    69,    70,    71,    72,    76,    77,
+      78,    79
 };
 #endif
 
@@ -1097,197 +1100,189 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* calculation: roman  */
-#line 27 "parser.y"
-                        { ast_root = (yyvsp[0].node); }
-#line 1103 "parser.tab.c"
+#line 23 "parser.y"
+                        { parser_result = yyvsp[0]; }
+#line 1106 "parser.tab.c"
     break;
 
   case 3: /* roman: thousand hundred ten digit  */
-#line 32 "parser.y"
-        { (yyval.node) = ast_create_combination(
-                ast_create_combination((yyvsp[-3].node), (yyvsp[-2].node)),
-                ast_create_combination((yyvsp[-1].node), (yyvsp[0].node))); }
-#line 1111 "parser.tab.c"
+#line 28 "parser.y"
+        { yyval = create(
+                create(yyvsp[-3], yyvsp[-2]),
+                create(yyvsp[-1], yyvsp[0])); }
+#line 1114 "parser.tab.c"
     break;
 
   case 4: /* thousand: M  */
-#line 38 "parser.y"
-                   { (yyval.node) = ast_create_symbol('M'); }
-#line 1117 "parser.tab.c"
+#line 34 "parser.y"
+                     { yyval = value( 1000 ); }
+#line 1120 "parser.tab.c"
     break;
 
   case 5: /* thousand: M M  */
-#line 39 "parser.y"
-                   { (yyval.node) = ast_create_combination(ast_create_symbol('M'), ast_create_symbol('M')); }
-#line 1123 "parser.tab.c"
+#line 35 "parser.y"
+                     { yyval = value( 2000 ); }
+#line 1126 "parser.tab.c"
     break;
 
   case 6: /* thousand: M M M  */
-#line 40 "parser.y"
-                   { (yyval.node) = ast_create_combination(
-                        ast_create_symbol('M'),
-                        ast_create_combination(ast_create_symbol('M'), ast_create_symbol('M'))); }
-#line 1131 "parser.tab.c"
+#line 36 "parser.y"
+                     { yyval = value( 3000 ); }
+#line 1132 "parser.tab.c"
     break;
 
   case 7: /* thousand: %empty  */
-#line 43 "parser.y"
-                   { (yyval.node) = NULL; }
-#line 1137 "parser.tab.c"
+#line 37 "parser.y"
+                     { yyval = value( 0 ); }
+#line 1138 "parser.tab.c"
     break;
 
   case 8: /* hundred: iHundred  */
-#line 47 "parser.y"
-                       { (yyval.node) = (yyvsp[0].node); }
-#line 1143 "parser.tab.c"
+#line 41 "parser.y"
+                         { yyval = yyvsp[0]; }
+#line 1144 "parser.tab.c"
     break;
 
   case 9: /* hundred: C D  */
-#line 48 "parser.y"
-                       { (yyval.node) = ast_create_combination(ast_create_symbol('C'), ast_create_symbol('D')); }
-#line 1149 "parser.tab.c"
+#line 42 "parser.y"
+                         { yyval = value( 400 ); }
+#line 1150 "parser.tab.c"
     break;
 
   case 10: /* hundred: D iHundred  */
-#line 49 "parser.y"
-                       { (yyval.node) = ast_create_combination(ast_create_symbol('D'), (yyvsp[0].node)); }
-#line 1155 "parser.tab.c"
+#line 43 "parser.y"
+                         { yyval = create(value( 500 ), yyvsp[0]); }
+#line 1156 "parser.tab.c"
     break;
 
   case 11: /* hundred: C M  */
-#line 50 "parser.y"
-                       { (yyval.node) = ast_create_combination(ast_create_symbol('C'), ast_create_symbol('M')); }
-#line 1161 "parser.tab.c"
+#line 44 "parser.y"
+                         { yyval = value( 900 ); }
+#line 1162 "parser.tab.c"
     break;
 
   case 12: /* iHundred: C  */
-#line 54 "parser.y"
-                       { (yyval.node) = ast_create_symbol('C'); }
-#line 1167 "parser.tab.c"
+#line 48 "parser.y"
+                         { yyval = value( 100 ); }
+#line 1168 "parser.tab.c"
     break;
 
   case 13: /* iHundred: C C  */
-#line 55 "parser.y"
-                       { (yyval.node) = ast_create_combination(ast_create_symbol('C'), ast_create_symbol('C')); }
-#line 1173 "parser.tab.c"
+#line 49 "parser.y"
+                         { yyval = value( 200 ); }
+#line 1174 "parser.tab.c"
     break;
 
   case 14: /* iHundred: C C C  */
-#line 56 "parser.y"
-                       { (yyval.node) = ast_create_combination(
-                            ast_create_symbol('C'),
-                            ast_create_combination(ast_create_symbol('C'), ast_create_symbol('C'))); }
-#line 1181 "parser.tab.c"
+#line 50 "parser.y"
+                         { yyval = value( 300 ); }
+#line 1180 "parser.tab.c"
     break;
 
   case 15: /* iHundred: %empty  */
-#line 59 "parser.y"
-                       { (yyval.node) = NULL; }
-#line 1187 "parser.tab.c"
+#line 51 "parser.y"
+                         { yyval = value( 0 ); }
+#line 1186 "parser.tab.c"
     break;
 
   case 16: /* ten: iTen  */
-#line 63 "parser.y"
-                       { (yyval.node) = (yyvsp[0].node); }
-#line 1193 "parser.tab.c"
+#line 55 "parser.y"
+                         { yyval = yyvsp[0]; }
+#line 1192 "parser.tab.c"
     break;
 
   case 17: /* ten: X L  */
-#line 64 "parser.y"
-                       { (yyval.node) = ast_create_combination(ast_create_symbol('X'), ast_create_symbol('L')); }
-#line 1199 "parser.tab.c"
+#line 56 "parser.y"
+                         { yyval = value( 40 ); }
+#line 1198 "parser.tab.c"
     break;
 
   case 18: /* ten: L iTen  */
-#line 65 "parser.y"
-                       { (yyval.node) = ast_create_combination(ast_create_symbol('L'), (yyvsp[0].node)); }
-#line 1205 "parser.tab.c"
+#line 57 "parser.y"
+                         { yyval = create(value( 50 ), yyvsp[0]); }
+#line 1204 "parser.tab.c"
     break;
 
   case 19: /* ten: X C  */
-#line 66 "parser.y"
-                       { (yyval.node) = ast_create_combination(ast_create_symbol('X'), ast_create_symbol('C')); }
-#line 1211 "parser.tab.c"
+#line 58 "parser.y"
+                         { yyval = value( 90 ); }
+#line 1210 "parser.tab.c"
     break;
 
   case 20: /* iTen: X  */
-#line 70 "parser.y"
-                       { (yyval.node) = ast_create_symbol('X'); }
-#line 1217 "parser.tab.c"
+#line 62 "parser.y"
+                         { yyval = value( 10 ); }
+#line 1216 "parser.tab.c"
     break;
 
   case 21: /* iTen: X X  */
-#line 71 "parser.y"
-                       { (yyval.node) = ast_create_combination(ast_create_symbol('X'), ast_create_symbol('X')); }
-#line 1223 "parser.tab.c"
+#line 63 "parser.y"
+                         { yyval = value( 20 ); }
+#line 1222 "parser.tab.c"
     break;
 
   case 22: /* iTen: X X X  */
-#line 72 "parser.y"
-                       { (yyval.node) = ast_create_combination(
-                            ast_create_symbol('X'),
-                            ast_create_combination(ast_create_symbol('X'), ast_create_symbol('X'))); }
-#line 1231 "parser.tab.c"
+#line 64 "parser.y"
+                         { yyval = value( 30 ); }
+#line 1228 "parser.tab.c"
     break;
 
   case 23: /* iTen: %empty  */
-#line 75 "parser.y"
-                       { (yyval.node) = NULL; }
-#line 1237 "parser.tab.c"
+#line 65 "parser.y"
+                         { yyval = value( 0 ); }
+#line 1234 "parser.tab.c"
     break;
 
   case 24: /* digit: iDigit  */
-#line 79 "parser.y"
-                       { (yyval.node) = (yyvsp[0].node); }
-#line 1243 "parser.tab.c"
+#line 69 "parser.y"
+                         { yyval = yyvsp[0]; }
+#line 1240 "parser.tab.c"
     break;
 
   case 25: /* digit: I V  */
-#line 80 "parser.y"
-                       { (yyval.node) = ast_create_combination(ast_create_symbol('I'), ast_create_symbol('V')); }
-#line 1249 "parser.tab.c"
+#line 70 "parser.y"
+                         { yyval = value( 4 ); }
+#line 1246 "parser.tab.c"
     break;
 
   case 26: /* digit: V iDigit  */
-#line 81 "parser.y"
-                       { (yyval.node) = ast_create_combination(ast_create_symbol('V'), (yyvsp[0].node)); }
-#line 1255 "parser.tab.c"
+#line 71 "parser.y"
+                         { yyval = create(value( 5 ), yyvsp[0]); }
+#line 1252 "parser.tab.c"
     break;
 
   case 27: /* digit: I X  */
-#line 82 "parser.y"
-                       { (yyval.node) = ast_create_combination(ast_create_symbol('I'), ast_create_symbol('X')); }
-#line 1261 "parser.tab.c"
+#line 72 "parser.y"
+                         { yyval = value( 9 ); }
+#line 1258 "parser.tab.c"
     break;
 
   case 28: /* iDigit: I  */
-#line 86 "parser.y"
-                       { (yyval.node) = ast_create_symbol('I'); }
-#line 1267 "parser.tab.c"
+#line 76 "parser.y"
+                         { yyval = value( 1 ); }
+#line 1264 "parser.tab.c"
     break;
 
   case 29: /* iDigit: I I  */
-#line 87 "parser.y"
-                       { (yyval.node) = ast_create_combination(ast_create_symbol('I'), ast_create_symbol('I')); }
-#line 1273 "parser.tab.c"
+#line 77 "parser.y"
+                         { yyval = value( 2 ); }
+#line 1270 "parser.tab.c"
     break;
 
   case 30: /* iDigit: I I I  */
-#line 88 "parser.y"
-                       { (yyval.node) = ast_create_combination(
-                            ast_create_symbol('I'),
-                            ast_create_combination(ast_create_symbol('I'), ast_create_symbol('I'))); }
-#line 1281 "parser.tab.c"
+#line 78 "parser.y"
+                         { yyval = value( 3 ); }
+#line 1276 "parser.tab.c"
     break;
 
   case 31: /* iDigit: %empty  */
-#line 91 "parser.y"
-                       { (yyval.node) = NULL; }
-#line 1287 "parser.tab.c"
+#line 79 "parser.y"
+                         { yyval = value( 0 ); }
+#line 1282 "parser.tab.c"
     break;
 
 
-#line 1291 "parser.tab.c"
+#line 1286 "parser.tab.c"
 
       default: break;
     }
@@ -1480,7 +1475,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 94 "parser.y"
+#line 82 "parser.y"
 
 
 void yyerror(const char *s)
@@ -1505,14 +1500,11 @@ int main(int argc, char **argv)
         exit(1);
     }
 
-    yy_delete_buffer(buffer);
-
-    // Evaluate the AST
-    int result = ast_evaluate(ast_root);
+    int result = evaluate(parser_result);
     printf("%d\n", result);
 
-    // Free the AST
-    ast_free(ast_root);
+    free_ast(parser_result);
+    yy_delete_buffer(buffer);
 
     return 0;
 }
