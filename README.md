@@ -1,5 +1,9 @@
 # romanNumeralConverter
 
+## Future additions
+- Add a front end hosted on github pages
+- host the backend as a Lambda function with a API gateway.
+
 ## Description of Files Included
 - `expr.c`: Contains the implementation of ast for and evaluating it.
 - `expr.h`: Header file for `expr.c`.
