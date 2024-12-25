@@ -6,6 +6,10 @@
 
 You can test it live at [Roman Numeral Converter](https://dant52.github.io/romanNumeralConverter/).  
 
+![Roman Numeral Converter in Action](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExd3h5NTNrcWR3cGd3dGRyY2UxamJubHc2N3pxYXpuaDlmanprdGI2dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/bvZfTixbRwIJxzVZ8m/giphy.gif)  
+
+
+
 
 ## Description of Files Included
 - `expr.c`: Contains the implementation of ast for and evaluating it.
