@@ -1,8 +1,11 @@
 # romanNumeralConverter
 
-## Future additions
-- Add a front end hosted on github pages
-- host the backend as a Lambda function with a API gateway.
+## romanNumeralConverter API
+- The front end is now hosted on GitHub Pages.  
+- The backend has been implemented as a Lambda function with an API Gateway.  
+
+You can test it live at [Roman Numeral Converter](https://dant52.github.io/romanNumeralConverter/).  
+
 
 ## Description of Files Included
 - `expr.c`: Contains the implementation of ast for and evaluating it.
